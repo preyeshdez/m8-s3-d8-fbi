@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FBI System</title>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+</head>
+
+<body>
+  <h1>&#128374; FBI System &#128374;</h1>
+  <div class="card bg-dark text-center">
+    <div class="card-body">
+      <form id="formLogin">
+        <h1>&#128372;&#128372;&#128372;</h1>
+        <h5 class="card-title text-center">Ingrese sus credenciales</h5>
+        <div class="row d-flex align-items-center mb-1">
+          <div class="col-12">Email:</div>
+          <div class="col-7 m-auto"><input type="text" name="email" id="email" class="form-control" /></div>
+        </div>
+        <div class="row d-flex align-items-center">
+          <div class="col-12">Password:</div>
+          <div class="col-7 m-auto"><input type="password" name="password" id="password" class="form-control" /></div>
+        </div>
+        <input type="submit" class="btn bg-light my-3" value="Ingresar &#128373">
+      </form>
+    </div>
+  </div>
+
+  <script>
+
+    const formLogin = document.getElementById("formLogin");
+
+    formLogin.addEventListener("submit", async (event) => {
+      try {
+        event.preventDefault();
+
+        let formData = new FormData(formLogin);
+
+        let response = await fetch("/api/v1/login", {
+          method: "POST",
+          body: formData
+        });
+
+        let data = await response.json();
+
+        if (response.status == 200) {
+          alert(data.message);
+
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("usuario", JSON.stringify(data.usuario));
+
+          location.href = `/home?token=${data.token}`;
+
+        } else {
+          alert(data.message);
+          localStorage.removeItem("token");
+          localStorage.removeItem("usuario");
+        }
+
+      } catch (error) {
+        alert("Error al intentar iniciar sesión.");
+        localStorage.removeItem("token");
+        localStorage.removeItem("usuario");
+      }
+    })
+
+  </script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: black;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      height: 60vh;
+    }
+  </style>
+</body>
+
+</html>

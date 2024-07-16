@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FBI System</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+</head>
+
+<body>
+    <h1>&#128374; FBI System &#128374;</h1>
+
+    <h3>Bienvenid@ <span id="mensaje"></span></h3>
+
+    <button class="btn bg-light my-3" id="logoutBtn">Cerrar sesión &#128373</button>
+
+    <script>
+
+        let mensaje = document.getElementById("mensaje");
+        let usuario = JSON.parse(localStorage.getItem("usuario"));
+        mensaje.textContent = usuario.email;
+
+        let logoutBtn = document.getElementById("logoutBtn");
+
+        logoutBtn.addEventListener("click", (event) => {
+
+            event.preventDefault();
+
+            let confirmacion = confirm("Está seguro que queire cerrar sesión?");
+
+            if (confirmacion) {
+                localStorage.removeItem("token");
+                localStorage.removeItem("usuario");
+                alert("Sesión cerrada correctamente.")
+                location.href = "/";
+            }
+        });
+
+    </script>
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: black;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            height: 60vh;
+        }
+    </style>
+</body>
+
+</html>
